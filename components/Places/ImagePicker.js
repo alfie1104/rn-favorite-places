@@ -14,6 +14,12 @@ function ImagePicker() {
     useCameraPermissions();
 
   async function verifyPermissions() {
+    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
+      //Android에서 Expo로 실행했을 때, 카메라 권한을 허용해놨는데도 초기값이 denied로 설정되어있어서
+      //최초 denied일때 한번 더 권한을 요청하도록 하였음
+      await requestPermission();
+    }
+
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
 
