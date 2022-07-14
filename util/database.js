@@ -27,3 +27,29 @@ export function init() {
 
   return promise;
 }
+
+export function insertPlace(place) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO places (title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?)`,
+        [
+          place.title,
+          place.imageUri,
+          place.address,
+          place.location.lat,
+          place.location.lng,
+        ],
+        () => {
+          console.log(result);
+          resolve(result);
+        }, //callback function for success
+        (_, error) => {
+          reject(error);
+        } //callback function for fail
+      );
+    });
+  });
+
+  return promise;
+}
